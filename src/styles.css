@@ -342,6 +342,12 @@ body {
   overflow-x: auto;
 }
 
+.gx-demo-note {
+  margin: 0;
+  color: var(--gx-sub);
+  font-size: 14px;
+}
+
 .gx-panel,
 .gx-code,
 .gx-howto,

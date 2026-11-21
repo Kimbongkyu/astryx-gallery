@@ -1,5 +1,5 @@
 import {Component, useEffect, useMemo, useState, type ReactNode} from 'react';
-import {BY_NAME, ENTRIES, GROUPS, docsUrl, searchEntries, type Entry} from './registry';
+import {BY_NAME, ENTRIES, GROUPS, NO_DEMO_REASON, docsUrl, searchEntries, type Entry} from './registry';
 import {DEMOS, buildCode, defaultValues, type Control, type Values} from './demos';
 import {useFavorites} from './favorites';
 
@@ -205,6 +205,8 @@ function Playground({name}: {name: string}) {
           <Preview v={values} />
         </PreviewBoundary>
       </div>
+      {demo.note && <p className="gx-demo-note">{demo.note}</p>}
+      {demo.controls.length > 0 && (
       <div className="gx-panel">
         <div className="gx-panel-head">
           <h3>속성 조절</h3>
@@ -225,6 +227,7 @@ function Playground({name}: {name: string}) {
           />
         ))}
       </div>
+      )}
       <div className="gx-code">
         <div className="gx-panel-head">
           <h3>코드</h3>
@@ -273,9 +276,10 @@ function Detail({name, fav}: {name: string; fav: FavApi}) {
         <Playground key={name} name={name} />
       ) : (
         <section className="gx-nodemo">
-          <h3>아직 바로 해보기를 만들지 않았어요</h3>
+          <h3>바로 해보기가 없는 컴포넌트예요</h3>
           <p>
-            아래 명령으로 사용법(속성 목록)을 볼 수 있고, 공식 사이트에서 예제를 복사할 수 있어요.
+            {NO_DEMO_REASON[name] ??
+              '아직 미리보기를 만들지 못했어요. 아래 명령으로 사용법을 볼 수 있어요.'}
           </p>
         </section>
       )}

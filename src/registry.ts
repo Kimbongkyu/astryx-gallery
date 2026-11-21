@@ -193,3 +193,14 @@ export function docsUrl(name: string): string {
   const kebab = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
   return `https://astryx.atmeta.com/components/${kebab}`;
 }
+
+// 바로 해보기를 만들 수 없는 이유 (화면 컴포넌트가 아니라 훅·내부 부품이거나, 화면 전체를 차지하는 경우)
+export const NO_DEMO_REASON: Record<string, string> = {
+  Indicator: '단독 컴포넌트가 아니라 체크·라디오 같은 다른 컴포넌트 안에서 쓰는 내부 부품이에요.',
+  Layer: '화면에 그려지는 컴포넌트가 아니라, 팝업류가 쓰는 위치 계산 훅(useLayer)과 프로바이더예요.',
+  AppShell: '화면 전체(100% 높이)를 차지하는 앱 틀이라 작은 미리보기로 보여줄 수 없어요. 공식 문서의 예제를 참고하세요.',
+  NavMenu: '문서에서 컴포넌트 형태를 확인하지 못했어요. CLI 명령으로 사용법을 확인해 주세요.',
+  Resizable: '컴포넌트가 아니라 크기 조절 훅(useResizable)과 손잡이(ResizeHandle)로 구성돼 있어요.',
+  SnapPaging: '컴포넌트가 아니라 훅(useSnapPaging)이에요. 스크롤 영역에 연결해서 써요.',
+  Swipe: '컴포넌트가 아니라 스와이프 동작을 만드는 함수(createSwipe)예요.',
+};

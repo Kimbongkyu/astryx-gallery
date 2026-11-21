@@ -1,4 +1,4 @@
-import {useState, type ReactNode} from 'react';
+import {useState} from 'react';
 import {Badge} from '@astryxdesign/core/Badge';
 import {Banner} from '@astryxdesign/core/Banner';
 import {Button} from '@astryxdesign/core/Button';
@@ -9,34 +9,11 @@ import {Switch} from '@astryxdesign/core/Switch';
 import {TextInput} from '@astryxdesign/core/TextInput';
 import {ToggleButton} from '@astryxdesign/core/ToggleButton';
 
-// 속성 조절 패널에 나오는 항목
-export type Control =
-  | {kind: 'text'; key: string; label: string; default: string}
-  | {kind: 'bool'; key: string; label: string; default: boolean}
-  | {kind: 'select'; key: string; label: string; options: string[]; default: string}
-  | {
-      kind: 'number';
-      key: string;
-      label: string;
-      default: number;
-      min: number;
-      max: number;
-      step?: number;
-    };
+import type {Control, Demo, Values} from './demoTypes';
+import {b, s} from './demoTypes';
+import {GROUP_DEMOS} from './demos/index';
 
-export type Values = Record<string, string | boolean | number>;
-
-export type Demo = {
-  tag: string; // 코드 복사에 쓰는 JSX 태그 이름
-  controls: Control[];
-  Preview: (props: {v: Values}) => ReactNode;
-  // 상태(value/onChange)처럼 코드에만 붙는 속성
-  extra?: string;
-  note?: string;
-};
-
-const s = (x: string | boolean | number) => String(x);
-const b = (x: string | boolean | number) => x === true;
+export type {Control, Demo, Values};
 
 function ButtonPreview({v}: {v: Values}) {
   return (
@@ -154,7 +131,7 @@ function SpinnerPreview({v}: {v: Values}) {
   );
 }
 
-export const DEMOS: Record<string, Demo> = {
+const BASE_DEMOS: Record<string, Demo> = {
   Button: {
     tag: 'Button',
     Preview: ButtonPreview,
@@ -324,12 +301,15 @@ export const DEMOS: Record<string, Demo> = {
   },
 };
 
+export const DEMOS: Record<string, Demo> = {...BASE_DEMOS, ...GROUP_DEMOS};
+
 export function defaultValues(demo: Demo): Values {
   return Object.fromEntries(demo.controls.map((c) => [c.key, c.default]));
 }
 
 // 현재 설정을 그대로 복사해서 쓸 수 있는 JSX 코드로 만든다.
 export function buildCode(name: string, demo: Demo, v: Values): string {
+  if (demo.code) return demo.code(v);
   // 갤러리의 기본값이 컴포넌트 기본값과 다를 수 있어서, 값이 있는 속성은 모두 적는다.
   const parts: string[] = [];
   for (const c of demo.controls) {
