@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {Button} from '@astryxdesign/core/Button';
 import {IconButton} from '@astryxdesign/core/IconButton';
 import type {useFavorites} from '../favorites';
 
@@ -30,17 +31,16 @@ export async function copyText(text: string): Promise<boolean> {
 export function CopyButton({text, label = '복사'}: {text: string; label?: string}) {
   const [done, setDone] = useState(false);
   return (
-    <button
-      type="button"
-      className="gx-btn"
+    <Button
+      label={done ? '복사됨' : label}
+      variant="secondary"
+      size="sm"
       onClick={async () => {
         const ok = await copyText(text);
         setDone(ok);
         window.setTimeout(() => setDone(false), 1500);
       }}
-    >
-      {done ? '복사됨' : label}
-    </button>
+    />
   );
 }
 

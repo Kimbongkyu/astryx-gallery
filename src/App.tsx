@@ -1,6 +1,12 @@
 import {useEffect, useMemo, useState, type ReactNode} from 'react';
 import {Button} from '@astryxdesign/core/Button';
 import {IconButton} from '@astryxdesign/core/IconButton';
+import {Badge} from '@astryxdesign/core/Badge';
+import {Heading} from '@astryxdesign/core/Heading';
+import {Link} from '@astryxdesign/core/Link';
+import {Text} from '@astryxdesign/core/Text';
+import {HStack} from '@astryxdesign/core/HStack';
+import {VStack} from '@astryxdesign/core/VStack';
 import {TextInput} from '@astryxdesign/core/TextInput';
 import {BY_NAME, ENTRIES, GROUPS, searchEntries} from './registry';
 import {useFavorites} from './favorites';
@@ -62,56 +68,61 @@ export function App() {
   let main: ReactNode;
   if (searching) {
     main = (
-      <>
-        <h2 className="gx-h">검색 결과 {results.length}개</h2>
+      <VStack gap={3}>
+        <Heading level={2}>검색 결과 {results.length}개</Heading>
         <CardList entries={results} fav={fav} />
-      </>
+      </VStack>
     );
   } else if (route.view === 'comp') {
     main = <Detail key={route.name} name={route.name} fav={fav} />;
   } else if (route.view === 'fav') {
     main = (
-      <>
-        <h2 className="gx-h">★ 즐겨찾기 {favEntries.length}개</h2>
+      <VStack gap={3}>
+        <Heading level={2}>★ 즐겨찾기 {favEntries.length}개</Heading>
         {favEntries.length === 0 ? (
-          <p className="gx-empty">
+          <Text type="body" color="secondary">
             마음에 드는 컴포넌트의 ☆를 누르면 여기에 모여요. 나중에 요청할 때 이름을 그대로 알려주면 돼요.
-          </p>
+          </Text>
         ) : (
           <CardList entries={favEntries} fav={fav} />
         )}
         <FavTools fav={fav} />
-      </>
+      </VStack>
     );
   } else if (route.view === 'group') {
     const g = GROUPS.find((x) => x.id === route.id)!;
     main = (
-      <>
-        <h2 className="gx-h">{g.label}</h2>
-        <p className="gx-hint">{g.hint}</p>
+      <VStack gap={3}>
+        <Heading level={2}>{g.label}</Heading>
+        <Text type="body" color="secondary">
+          {g.hint}
+        </Text>
         <CardList entries={ENTRIES.filter((e) => e.group === g.id)} fav={fav} />
-      </>
+      </VStack>
     );
   } else {
     main = (
-      <>
-        <h2 className="gx-h">전체 {ENTRIES.length}개</h2>
-        <p className="gx-hint">
+      <VStack gap={4}>
+        <Heading level={2}>전체 {ENTRIES.length}개</Heading>
+        <Text type="body" color="secondary">
           그룹별로 둘러보거나 위에서 검색하세요. 「바로 해보기」가 붙은 건 화면에서 속성을 바꿔볼 수 있어요.
-        </p>
+        </Text>
         {GROUPS.map((g) => {
           const list = ENTRIES.filter((e) => e.group === g.id);
           if (!list.length) return null;
           return (
-            <section key={g.id} className="gx-section">
-              <h3>
-                <a href={`#/g/${g.id}`}>{g.label}</a> <small>{list.length}</small>
-              </h3>
+            <VStack key={g.id} gap={3}>
+              <HStack gap={2} align="center">
+                <Heading level={3}>
+                  <Link href={`#/g/${g.id}`} color="primary">{g.label}</Link>
+                </Heading>
+                <Badge label={String(list.length)} />
+              </HStack>
               <CardList entries={list} fav={fav} />
-            </section>
+            </VStack>
           );
         })}
-      </>
+      </VStack>
     );
   }
 
@@ -127,9 +138,9 @@ export function App() {
           variant="ghost"
           onClick={() => setSideOpen((o) => !o)}
         />
-        <a className="gx-title" href="#/">
-          Astryx 둘러보기
-        </a>
+        <Link href="#/" color="primary" className="gx-title">
+          <Text weight="bold">Astryx 둘러보기</Text>
+        </Link>
         <div className="gx-search">
           <TextInput
             label="컴포넌트 검색"

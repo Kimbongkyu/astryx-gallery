@@ -1,5 +1,6 @@
 import {Badge} from '@astryxdesign/core/Badge';
 import {ClickableCard} from '@astryxdesign/core/ClickableCard';
+import {EmptyState} from '@astryxdesign/core/EmptyState';
 import {HStack} from '@astryxdesign/core/HStack';
 import {Text} from '@astryxdesign/core/Text';
 import {VStack} from '@astryxdesign/core/VStack';
@@ -45,7 +46,7 @@ function Card({entry, fav}: {entry: Entry; fav: FavApi}) {
 }
 
 export function CardList({entries, fav}: {entries: Entry[]; fav: FavApi}) {
-  if (!entries.length) return <p className="gx-empty">해당하는 컴포넌트가 없어요.</p>;
+  if (!entries.length) return <EmptyState title="해당하는 컴포넌트가 없어요." />;
   return (
     <ul className="gx-cards">
       {entries.map((e) => (
