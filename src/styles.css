@@ -13,9 +13,15 @@ html,
 body {
   margin: 0;
   max-width: 100%;
-  overflow-x: hidden;
+  /* hidden 이 아니라 clip: hidden 은 body 를 스크롤 영역으로 만들어 상단바 고정(sticky)을 깨뜨린다 */
+  overflow-x: clip;
   background: var(--gx-bg);
   -webkit-text-size-adjust: 100%;
+}
+
+html {
+  /* 카드로 스크롤 이동할 때 고정된 상단바에 가려지지 않게 */
+  scroll-padding-top: calc(var(--gx-top) + 12px);
 }
 
 .gx {
