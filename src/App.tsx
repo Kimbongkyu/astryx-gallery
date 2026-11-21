@@ -1,9 +1,14 @@
 import {Component, useEffect, useMemo, useState, type ReactNode} from 'react';
 import {BY_NAME, ENTRIES, GROUPS, NO_DEMO_REASON, docsUrl, searchEntries, type Entry} from './registry';
 import {DEMOS, buildCode, defaultValues, type Control, type Values} from './demos';
+import {Badge} from '@astryxdesign/core/Badge';
 import {Button} from '@astryxdesign/core/Button';
+import {ClickableCard} from '@astryxdesign/core/ClickableCard';
+import {HStack} from '@astryxdesign/core/HStack';
 import {IconButton} from '@astryxdesign/core/IconButton';
+import {Text} from '@astryxdesign/core/Text';
 import {TextInput} from '@astryxdesign/core/TextInput';
+import {VStack} from '@astryxdesign/core/VStack';
 import {useFavorites} from './favorites';
 
 /* ---------- 주소(#) 라우팅 ---------- */
@@ -96,17 +101,29 @@ function CopyButton({text, label = '복사'}: {text: string; label?: string}) {
   );
 }
 
-function Star({on, onClick, name}: {on: boolean; onClick: () => void; name: string}) {
+function Star({
+  on,
+  onClick,
+  name,
+  className,
+}: {
+  on: boolean;
+  onClick: () => void;
+  name: string;
+  className?: string;
+}) {
   return (
-    <button
-      type="button"
-      className={on ? 'gx-star on' : 'gx-star'}
-      aria-pressed={on}
-      aria-label={`${name} 즐겨찾기 ${on ? '해제' : '추가'}`}
+    <IconButton
+      className={className}
+      label={`${name} 즐겨찾기 ${on ? '해제' : '추가'}`}
+      icon={
+        <span aria-hidden="true" className={on ? 'gx-glyph on' : 'gx-glyph'}>
+          {on ? '★' : '☆'}
+        </span>
+      }
+      variant="ghost"
       onClick={onClick}
-    >
-      {on ? '★' : '☆'}
-    </button>
+    />
   );
 }
 
@@ -116,15 +133,35 @@ function Card({entry, fav}: {entry: Entry; fav: FavApi}) {
   const on = fav.favs.includes(entry.name);
   return (
     <li className="gx-card">
-      <a className="gx-card-main" href={`#/c/${entry.name}`}>
-        <span className="gx-card-ko">
-          {entry.ko}
-          {DEMOS[entry.name] && <span className="gx-live">바로 해보기</span>}
-        </span>
-        <span className="gx-card-en">{entry.name}</span>
-        <span className="gx-card-desc">{entry.desc}</span>
-      </a>
-      <Star on={on} onClick={() => fav.toggle(entry.name)} name={entry.ko} />
+      <ClickableCard
+        label={`${entry.ko} (${entry.name}) 자세히 보기`}
+        onClick={() => {
+          window.location.hash = `#/c/${entry.name}`;
+        }}
+        padding={3}
+        width="100%"
+      >
+        <VStack gap={1} className="gx-card-text">
+          <HStack gap={2} align="center">
+            <Text type="body" weight="bold" as="div">
+              {entry.ko}
+            </Text>
+            {DEMOS[entry.name] && <Badge label="바로 해보기" variant="success" />}
+          </HStack>
+          <Text type="supporting" color="secondary" as="div">
+            {entry.name}
+          </Text>
+          <Text type="supporting" color="secondary" as="div">
+            {entry.desc}
+          </Text>
+        </VStack>
+      </ClickableCard>
+      <Star
+        className="gx-card-star"
+        on={on}
+        onClick={() => fav.toggle(entry.name)}
+        name={entry.ko}
+      />
     </li>
   );
 }
