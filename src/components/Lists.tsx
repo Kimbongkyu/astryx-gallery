@@ -11,7 +11,7 @@ import {Star, type FavApi} from './shared';
 function Card({entry, fav}: {entry: Entry; fav: FavApi}) {
   const on = fav.favs.includes(entry.name);
   return (
-    <li className="gx-card">
+    <li className="gx-card" id={`card-${entry.name}`}>
       <ClickableCard
         label={`${entry.ko} (${entry.name}) 자세히 보기`}
         onClick={() => {

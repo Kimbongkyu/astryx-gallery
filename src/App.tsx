@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState, type ReactNode} from 'react';
+import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import {Button} from '@astryxdesign/core/Button';
 import {IconButton} from '@astryxdesign/core/IconButton';
 import {Badge} from '@astryxdesign/core/Badge';
@@ -31,13 +31,24 @@ function parseHash(hash: string): Route {
   return {view: 'all'};
 }
 
+type ListRoute = Exclude<Route, {view: 'comp'}>;
+
+function routeHash(r: ListRoute): string {
+  if (r.view === 'group') return `#/g/${r.id}`;
+  if (r.view === 'fav') return '#/fav';
+  return '#/';
+}
+
+function routeLabel(r: ListRoute): string {
+  if (r.view === 'group') return GROUPS.find((g) => g.id === r.id)?.label ?? '목록';
+  if (r.view === 'fav') return '즐겨찾기';
+  return '전체';
+}
+
 function useRoute(): Route {
   const [hash, setHash] = useState(() => window.location.hash);
   useEffect(() => {
-    const onChange = () => {
-      setHash(window.location.hash);
-      window.scrollTo({top: 0});
-    };
+    const onChange = () => setHash(window.location.hash);
     window.addEventListener('hashchange', onChange);
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
@@ -58,6 +69,30 @@ export function App() {
     setSideOpen(false);
   }, [route]);
 
+  // 상세에서 돌아갈 목록(전체/그룹/즐겨찾기)을 기억한다
+  const [lastList, setLastList] = useState<ListRoute | null>(null);
+  useEffect(() => {
+    if (route.view !== 'comp') setLastList(route);
+  }, [route]);
+
+  // 스크롤: 상세로 가면 맨 위, 상세에서 목록으로 돌아오면 방금 보던 카드로 이동
+  const prevRoute = useRef<Route | null>(null);
+  useEffect(() => {
+    const prev = prevRoute.current;
+    prevRoute.current = route;
+    if (prev === route) return;
+    if (route.view !== 'comp' && prev?.view === 'comp') {
+      const id = `card-${prev.name}`;
+      const goto = () => document.getElementById(id)?.scrollIntoView({block: 'center'});
+      if (document.getElementById(id)) {
+        goto();
+        requestAnimationFrame(goto); // 레이아웃이 자리 잡은 뒤 한 번 더
+        return;
+      }
+    }
+    window.scrollTo({top: 0});
+  }, [route]);
+
   const searching = query.trim().length > 0;
   const results = useMemo(() => searchEntries(ENTRIES, query), [query]);
   const favEntries = useMemo(
@@ -74,7 +109,17 @@ export function App() {
       </VStack>
     );
   } else if (route.view === 'comp') {
-    main = <Detail key={route.name} name={route.name} fav={fav} />;
+    const g = GROUPS.find((x) => x.id === BY_NAME[route.name].group)!;
+    const back: ListRoute = lastList ?? {view: 'group', id: g.id};
+    main = (
+      <Detail
+        key={route.name}
+        name={route.name}
+        fav={fav}
+        backHref={routeHash(back)}
+        backLabel={routeLabel(back)}
+      />
+    );
   } else if (route.view === 'fav') {
     main = (
       <VStack gap={3}>

@@ -14,7 +14,17 @@ import {CopyButton, Star, type FavApi} from './shared';
 
 /* ---------- 상세 화면 ---------- */
 
-export function Detail({name, fav}: {name: string; fav: FavApi}) {
+export function Detail({
+  name,
+  fav,
+  backHref,
+  backLabel,
+}: {
+  name: string;
+  fav: FavApi;
+  backHref: string; // 돌아갈 목록 주소 (상세로 들어오기 전에 보던 목록)
+  backLabel: string;
+}) {
   const e = BY_NAME[name];
   const group = GROUPS.find((g) => g.id === e.group)!;
   const hasDemo = Boolean(DEMOS[name]);
@@ -22,8 +32,8 @@ export function Detail({name, fav}: {name: string; fav: FavApi}) {
   const cli = `npx @astryxdesign/cli component ${name}`;
   return (
     <VStack gap={4} align="stretch">
-      <Link href={`#/g/${group.id}`} hasUnderline={false} color="secondary">
-        ← {group.label}
+      <Link href={backHref} hasUnderline={false} color="secondary">
+        ← {backLabel}
       </Link>
       <HStack justify="between" align="center" gap={2}>
         <VStack gap={0.5}>
