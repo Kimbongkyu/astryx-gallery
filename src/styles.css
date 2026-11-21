@@ -1,0 +1,565 @@
+/* 갤러리 화면 틀 스타일. 컴포넌트 미리보기는 Astryx 자체 스타일을 그대로 쓴다. */
+
+:root {
+  --gx-bg: #f6f7f9;
+  --gx-surface: #ffffff;
+  --gx-line: #e2e5ea;
+  --gx-text: #1b1f24;
+  --gx-sub: #5b6470;
+  --gx-accent: #2563eb;
+  --gx-star: #f5a524;
+  --gx-radius: 12px;
+  --gx-top: 56px;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--gx-bg);
+  color: var(--gx-text);
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Segoe UI', sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.gx * {
+  box-sizing: border-box;
+}
+
+.gx a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.gx button,
+.gx input,
+.gx select,
+.gx textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ---------- 상단바 ---------- */
+.gx-top {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--gx-top);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  padding-top: env(safe-area-inset-top);
+  background: var(--gx-surface);
+  border-bottom: 1px solid var(--gx-line);
+}
+
+.gx-menu {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.gx-title {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.gx-search {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--gx-line);
+  border-radius: 999px;
+  background: var(--gx-bg);
+  font-size: 16px; /* iOS 에서 입력 시 확대되지 않게 */
+}
+
+.gx-favlink {
+  min-width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--gx-star);
+  font-weight: 700;
+}
+
+.gx-favlink span {
+  color: var(--gx-text);
+  font-size: 14px;
+}
+
+/* ---------- 본문 틀 ---------- */
+.gx-body {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gx-side {
+  position: sticky;
+  top: var(--gx-top);
+  flex: 0 0 220px;
+  max-height: calc(100vh - var(--gx-top));
+  overflow-y: auto;
+  padding: 16px 12px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gx-side a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--gx-sub);
+}
+
+.gx-side a small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.gx-side a:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.gx-side a.on {
+  background: var(--gx-surface);
+  color: var(--gx-text);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--gx-line);
+}
+
+.gx-side hr {
+  border: 0;
+  border-top: 1px solid var(--gx-line);
+  margin: 8px 4px;
+}
+
+.gx-main {
+  flex: 1;
+  min-width: 0;
+  padding: 20px 16px 64px;
+}
+
+.gx-h {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.gx-hint,
+.gx-empty {
+  color: var(--gx-sub);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.gx-section {
+  margin-top: 24px;
+}
+
+.gx-section h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.gx-section h3 small {
+  color: var(--gx-sub);
+  font-weight: 400;
+}
+
+/* ---------- 카드 목록 ---------- */
+.gx-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.gx-card {
+  position: relative;
+  background: var(--gx-surface);
+  border: 1px solid var(--gx-line);
+  border-radius: var(--gx-radius);
+}
+
+.gx-card:hover {
+  border-color: #c4cad3;
+}
+
+.gx-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 52px 12px 14px;
+  min-height: 84px;
+}
+
+.gx-card-ko {
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.gx-card-en {
+  font-size: 12px;
+  color: var(--gx-sub);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.gx-card-desc {
+  font-size: 13px;
+  color: var(--gx-sub);
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+.gx-live {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0f6b3d;
+  background: #dcf5e7;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.gx-card .gx-star {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.gx-star {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: #a3abb6;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.gx-star.on {
+  color: var(--gx-star);
+}
+
+/* ---------- 상세 ---------- */
+.gx-back {
+  display: inline-block;
+  color: var(--gx-sub);
+  margin-bottom: 8px;
+  min-height: 32px;
+}
+
+.gx-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.gx-detail-head h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.gx-en {
+  margin: 2px 0 0;
+  color: var(--gx-sub);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+}
+
+.gx-desc {
+  margin: 10px 0 16px;
+  line-height: 1.55;
+}
+
+.gx-note {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff6e0;
+  color: #7a5200;
+  font-size: 13px;
+}
+
+.gx-play {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.gx-stage {
+  min-height: 160px;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gx-surface);
+  border: 1px solid var(--gx-line);
+  border-radius: var(--gx-radius);
+  overflow-x: auto;
+}
+
+.gx-panel,
+.gx-code,
+.gx-howto,
+.gx-nodemo {
+  background: var(--gx-surface);
+  border: 1px solid var(--gx-line);
+  border-radius: var(--gx-radius);
+  padding: 14px;
+}
+
+.gx-howto,
+.gx-nodemo {
+  margin-bottom: 24px;
+}
+
+.gx-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.gx-panel h3,
+.gx-code h3,
+.gx-howto h3,
+.gx-nodemo h3,
+.gx-main article > section > h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.gx-nodemo p,
+.gx-howto p {
+  margin: 0 0 10px;
+  color: var(--gx-sub);
+  line-height: 1.5;
+}
+
+.gx-ctl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  border-top: 1px solid var(--gx-line);
+}
+
+.gx-ctl:first-of-type {
+  border-top: 0;
+}
+
+.gx-ctl label {
+  color: var(--gx-sub);
+  font-size: 14px;
+}
+
+.gx-ctl input[type='text'],
+.gx-ctl input[type='number'],
+.gx-ctl select {
+  height: 38px;
+  min-width: 0;
+  width: 55%;
+  padding: 0 10px;
+  border: 1px solid var(--gx-line);
+  border-radius: 8px;
+  background: var(--gx-surface);
+  font-size: 16px;
+}
+
+.gx-ctl input[type='checkbox'] {
+  width: 22px;
+  height: 22px;
+}
+
+.gx pre {
+  margin: 0 0 10px;
+  padding: 12px;
+  overflow-x: auto;
+  background: #0f1720;
+  color: #e6edf3;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.gx-code pre {
+  margin-bottom: 0;
+}
+
+.gx-btn {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--gx-line);
+  border-radius: 8px;
+  background: var(--gx-surface);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.gx-btn:active {
+  background: var(--gx-bg);
+}
+
+.gx-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.gx-cli {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 8px 10px;
+  background: var(--gx-bg);
+  border-radius: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.gx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gx-chip {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid var(--gx-line);
+  border-radius: 999px;
+  background: var(--gx-surface);
+  font-size: 14px;
+}
+
+.gx-error {
+  color: #b42318;
+  text-align: center;
+}
+
+.gx-tools {
+  margin-top: 24px;
+  padding: 12px 14px;
+  background: var(--gx-surface);
+  border: 1px solid var(--gx-line);
+  border-radius: var(--gx-radius);
+}
+
+.gx-tools summary {
+  cursor: pointer;
+  min-height: 32px;
+}
+
+.gx-tools textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--gx-line);
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.gx-ok {
+  color: #0f6b3d;
+}
+
+.gx-backdrop {
+  display: none;
+}
+
+/* ---------- 넓은 화면: 미리보기 옆에 속성/코드 ---------- */
+@media (min-width: 900px) {
+  .gx-play {
+    grid-template-columns: 1fr 320px;
+  }
+  .gx-stage {
+    grid-row: span 2;
+  }
+}
+
+/* ---------- 모바일: 그룹 메뉴를 왼쪽에서 밀려 나오게 ---------- */
+@media (max-width: 767px) {
+  .gx-menu {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gx-title {
+    display: none;
+  }
+
+  .gx-side {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(280px, 82vw);
+    max-height: none;
+    padding-top: calc(16px + env(safe-area-inset-top));
+    background: var(--gx-bg);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .gx-side.open {
+    transform: translateX(0);
+  }
+
+  .gx-side a {
+    min-height: 48px;
+  }
+
+  .gx-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .gx-main {
+    padding: 16px 12px 48px;
+  }
+
+  .gx-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .gx-detail-head h1 {
+    font-size: 22px;
+  }
+}
