@@ -15,11 +15,21 @@
 html,
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
   background: var(--gx-bg);
   color: var(--gx-text);
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
     'Noto Sans KR', 'Segoe UI', sans-serif;
   -webkit-text-size-adjust: 100%;
+}
+
+.gx {
+  font-size: 16px;
+  line-height: 1.5;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
 }
 
 .gx * {
@@ -187,7 +197,7 @@ body {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
   gap: 10px;
 }
 
@@ -305,13 +315,23 @@ body {
 
 .gx-play {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   margin-bottom: 24px;
 }
 
+.gx-play > * {
+  min-width: 0;
+}
+
+.gx-main article {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .gx-stage {
   min-height: 160px;
+  max-width: 100%;
   padding: 24px 16px;
   display: flex;
   align-items: center;
@@ -406,6 +426,9 @@ body {
   border-radius: 10px;
   font-size: 13px;
   line-height: 1.55;
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .gx-code pre {
@@ -438,12 +461,12 @@ body {
 .gx-cli {
   flex: 1;
   min-width: 0;
-  overflow-x: auto;
   padding: 8px 10px;
   background: var(--gx-bg);
   border-radius: 8px;
   font-size: 13px;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .gx-chips {
@@ -501,7 +524,7 @@ body {
 /* ---------- 넓은 화면: 미리보기 옆에 속성/코드 ---------- */
 @media (min-width: 900px) {
   .gx-play {
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(0, 1fr) 320px;
   }
   .gx-stage {
     grid-row: span 2;
@@ -556,10 +579,59 @@ body {
   }
 
   .gx-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .gx-detail-head h1 {
-    font-size: 22px;
+    font-size: 24px;
+  }
+
+  .gx-h {
+    font-size: 24px;
+  }
+
+  .gx-card-ko {
+    font-size: 17px;
+  }
+
+  .gx-card-en {
+    font-size: 13px;
+  }
+
+  .gx-card-desc,
+  .gx-hint,
+  .gx-note {
+    font-size: 15px;
+  }
+
+  .gx-side a {
+    font-size: 17px;
+  }
+
+  .gx-ctl {
+    min-height: 52px;
+  }
+
+  .gx-ctl label {
+    font-size: 16px;
+  }
+
+  .gx-ctl input[type='checkbox'] {
+    width: 26px;
+    height: 26px;
+  }
+
+  .gx-btn,
+  .gx-chip {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .gx pre {
+    font-size: 14px;
+  }
+
+  .gx-stage {
+    padding: 20px 12px;
   }
 }
