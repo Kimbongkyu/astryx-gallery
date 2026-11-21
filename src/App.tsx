@@ -1,6 +1,9 @@
 import {Component, useEffect, useMemo, useState, type ReactNode} from 'react';
 import {BY_NAME, ENTRIES, GROUPS, NO_DEMO_REASON, docsUrl, searchEntries, type Entry} from './registry';
 import {DEMOS, buildCode, defaultValues, type Control, type Values} from './demos';
+import {Button} from '@astryxdesign/core/Button';
+import {IconButton} from '@astryxdesign/core/IconButton';
+import {TextInput} from '@astryxdesign/core/TextInput';
 import {useFavorites} from './favorites';
 
 /* ---------- 주소(#) 라우팅 ---------- */
@@ -438,30 +441,34 @@ export function App() {
   return (
     <div className="gx">
       <header className="gx-top">
-        <button
-          type="button"
+        <IconButton
           className="gx-menu"
-          aria-label="그룹 메뉴 열기"
-          aria-expanded={sideOpen}
+          label="그룹 메뉴 열기"
+          icon={<span aria-hidden="true">☰</span>}
+          variant="ghost"
           onClick={() => setSideOpen((o) => !o)}
-        >
-          ☰
-        </button>
+        />
         <a className="gx-title" href="#/">
           Astryx 둘러보기
         </a>
-        <input
-          className="gx-search"
-          type="search"
-          inputMode="search"
-          placeholder="검색 (예: 팝업, 탭, 날짜)"
-          aria-label="컴포넌트 검색"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+        <div className="gx-search">
+          <TextInput
+            label="컴포넌트 검색"
+            isLabelHidden
+            type="search"
+            value={query}
+            onChange={(next) => setQuery(next)}
+            placeholder="검색 (예: 팝업, 탭, 날짜)"
+            hasClear
+            width="100%"
+          />
+        </div>
+        <Button
+          label={`★ ${fav.favs.length}`}
+          variant="ghost"
+          href="#/fav"
+          tooltip="즐겨찾기 보기"
         />
-        <a className="gx-favlink" href="#/fav" aria-label="즐겨찾기 보기">
-          ★ <span>{fav.favs.length}</span>
-        </a>
       </header>
 
       <div className="gx-body">

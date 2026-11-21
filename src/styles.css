@@ -66,13 +66,6 @@ body {
 
 .gx-menu {
   display: none;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  background: transparent;
-  font-size: 22px;
-  border-radius: 10px;
-  cursor: pointer;
 }
 
 .gx-title {
@@ -83,28 +76,6 @@ body {
 .gx-search {
   flex: 1;
   min-width: 0;
-  height: 40px;
-  padding: 0 14px;
-  border: 1px solid var(--gx-line);
-  border-radius: 999px;
-  background: var(--gx-bg);
-  font-size: 16px; /* iOS 에서 입력 시 확대되지 않게 */
-}
-
-.gx-favlink {
-  min-width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  color: var(--gx-star);
-  font-weight: 700;
-}
-
-.gx-favlink span {
-  color: var(--gx-text);
-  font-size: 14px;
 }
 
 /* ---------- 본문 틀 ---------- */
@@ -541,8 +512,6 @@ body {
 @media (max-width: 767px) {
   .gx-menu {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .gx-title {
